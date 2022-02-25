@@ -1,8 +1,13 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: './src/index.ts',
   devtool: 'inline-source-map',
+  devServer: {
+    static: true,
+    watchFiles: ['src/**/*', 'public/**/*'],
+  },
   module: {
     rules: [
       {
@@ -12,14 +17,18 @@ module.exports = {
           path.resolve(__dirname, 'src')
         ],
       },
+      {
+        test: /\.(jpg|png)/,
+        use: 'file-loader',
+      },
     ],
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.js', '.png'],
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    },
-  mode: 'development',
+    publicPath: '/dist/', // The leading slash is important!
+  },
 };
