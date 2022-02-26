@@ -18,13 +18,23 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpg|png)/,
-        use: 'file-loader',
+        test: /\.(jpg|png)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[hash][ext][query]'
+        }
+      },
+      {
+        test: /\.(otf)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[hash][ext][query]'
+        }
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.png'],
+    extensions: ['.ts', '.js'],
   },
   output: {
     filename: 'bundle.js',
