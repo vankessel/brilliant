@@ -3,7 +3,7 @@ import img from "../assets/images/photon.png"
 
 const p5Instance = new p5((p: p5) => {
   let pg: p5.Graphics;
-  let font: p5.Font;
+  // let font: p5.Font;
   let ball: Ball;
   let viewData: { firstPos: Vec2; firstXFlip: boolean; firstYFlip: boolean; rowCount: number; colCount: number; };
   let canvasSize: Vec2;
@@ -32,7 +32,7 @@ const p5Instance = new p5((p: p5) => {
     const canvasHeight = canvasWidth;
     p.createCanvas(canvasWidth, canvasHeight, p.WEBGL).parent("canvasContainer");
     p.frameRate(60);
-    p.textFont(font);
+    // p.textFont(font);
     p.textSize(20);
 
     // Setup render texture
