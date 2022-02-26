@@ -6,9 +6,7 @@ module.exports = {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'brilliant'),
-    },
+    static: true,
     watchFiles: ['src/**/*', 'public/**/*'],
   },
   plugins: [
