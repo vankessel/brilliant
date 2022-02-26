@@ -96,6 +96,7 @@ const p5Instance = new p5((p: p5) => {
         ball.yBounds.y = newH;
         ball.ignoreThisFrameReflection = true;
         ball.contactHistory = new Array<Vec2>();
+        ball.contactHistory.push();
         ball.initPos = ball.pos;
       }
     }

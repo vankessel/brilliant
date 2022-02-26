@@ -81,7 +81,7 @@ export default class Ball {
         if (this.pos.x < this.xBounds.x) {
             let upper = this.pos;
             const numContacts = this.contactHistory.length;
-            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : (this.initPos.x < this.xBounds.x) ? center : this.initPos;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
             let iter = 0;
@@ -101,7 +101,7 @@ export default class Ball {
         } else if (this.pos.x > this.xBounds.y) {
             let upper = this.pos;
             const numContacts = this.contactHistory.length;
-            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : (this.initPos.x > this.xBounds.y) ? center : this.initPos;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
             let iter = 0;
@@ -124,7 +124,7 @@ export default class Ball {
         if (this.pos.y < this.yBounds.x) {
             let upper = this.pos;
             const numContacts = this.contactHistory.length;
-            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : (this.initPos.y < this.yBounds.x) ? center : this.initPos;
 
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
@@ -145,7 +145,7 @@ export default class Ball {
         } else if (this.pos.y > this.yBounds.y) {
             let upper = this.pos;
             const numContacts = this.contactHistory.length;
-            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : (this.initPos.y > this.yBounds.y) ? center : this.initPos;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
             let iter = 0;
