@@ -633,7 +633,7 @@
         </a>
       </div>
 
-      <h3>3D Geometry</h3>
+      <h3>Reflections</h3>
 
 
 
@@ -694,27 +694,43 @@
 
 
 
-                <p>We'll be working with reflections in this course. Play around with this interactive to get a feel for the concept.</p>
+                <p>Play around with this interactive demo to get a feel for reflections. <br/> Click and drag to sling a photon. Mousewheel to zoom in and out.</p>
 
 <p>
     </p><div class="viz-wrapper clearfix" data-visualizationkey="__viz_4aebfba211b937c5b45d5a38a43dde849cce0e3a__" data-mediaurl="ds055uzetaobb.cloudfront.net" data-controller="app/visualizations:renderVisualization" data-controller-inited="true">
 
     <script src="dist/bundle.js"></script>
 
-    <div id="canvasContainer"></div>
+    <div id="main">
+        <div id="canvasContainer"></div>
+        <div><div id="lifeSlider"><span>Lifetime</span></div></div>
+        <div><div id="wSlider"><span>Width</span></div></div>
+        <div><div id="hSlider"><span>Height</span></div></div>
+    </div>
+
 
     <style>
-        #canvasContainer > canvas {
+        #main > div > canvas {
             display: block;
-            margin: auto;
+            margin: 0.5em auto;
+        }
+        #main > div > div {
+            display: table;
+            margin: 0 auto;
+        }
+        #main > div > div > * {
+            display: inline-block;
+            margin: 0.5em 0.5em;
+            vertical-align: middle;
+        }
+        .viz-wrapper {
+            margin: 0;
         }
     </style>
 
     </div>
 
  <p></p>
-
-<p>Click and drag to sling a photon. Mousewheel to zoom in and out.</p>
 
 <p></p>
 

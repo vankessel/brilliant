@@ -5,13 +5,25 @@
   <body>
     <main>
         <div id="canvasContainer"></div>
+        <div><div id="lifeSlider"><span>Lifetime</span></div></div>
+        <div><div id="wSlider"><span>Width</span></div></div>
+        <div><div id="hSlider"><span>Height</span></div></div>
     </main>
   </body>
 </html>
 
 <style>
-  #canvasContainer > canvas {
+  main > div > canvas {
       display: block;
-      margin: auto;
+      margin: 1em auto;
+  }
+  main > div > div {
+      display: table;
+      margin: 0 auto;
+  }
+  main > div > div > * {
+      display: inline-block;
+      margin: 0.5em 1em;
+      vertical-align: middle;
   }
 </style>

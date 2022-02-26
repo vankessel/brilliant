@@ -14,6 +14,7 @@ export default class Ball {
     private spawnTime: number;
     private active: boolean = true;
     private spawnedThisFrame: boolean = true;
+    ignoreThisFrameReflection: boolean = false;
     // private ballSpawnSounds: p5.SoundFile[];
 
     initPos: Vec2;
@@ -73,16 +74,18 @@ export default class Ball {
 
         let normals = new Array<Vec2>();
         let testPos = this.pos.copy();
+        const center = new Vec2(this.xBounds.y / 2, this.yBounds.y / 2);
+        const maxIter = 32;
 
         // x = 0
         if (this.pos.x < this.xBounds.x) {
             let upper = this.pos;
-            let lower = this.prevPos;
+            const numContacts = this.contactHistory.length;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
-            while (Math.abs(testPos.x - this.xBounds.x) > epsilon) {
-                console.log(Math.abs(testPos.x - this.xBounds.x));
-
+            let iter = 0;
+            while (Math.abs(testPos.x - this.xBounds.x) > epsilon && iter < maxIter) {
                 // TestPos is closer to pos
                 if (testPos.x < this.xBounds.x) {
                     upper = testPos;
@@ -90,16 +93,19 @@ export default class Ball {
                     lower = testPos;
                 }
                 testPos = upper.add(lower).scale(0.5);
+                iter++;
             }
 
             normals.push(new Vec2(1, 0));
             // x = w
         } else if (this.pos.x > this.xBounds.y) {
             let upper = this.pos;
-            let lower = this.prevPos;
+            const numContacts = this.contactHistory.length;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
-            while (Math.abs(testPos.x - this.xBounds.y) > epsilon) {
+            let iter = 0;
+            while (Math.abs(testPos.x - this.xBounds.y) > epsilon && iter < maxIter) {
                 // TestPos is closer to pos
                 if (testPos.x > this.xBounds.y) {
                     upper = testPos;
@@ -107,6 +113,7 @@ export default class Ball {
                     lower = testPos;
                 }
                 testPos = upper.add(lower).scale(0.5);
+                iter++;
             }
 
             normals.push(new Vec2(-1, 0));
@@ -116,10 +123,13 @@ export default class Ball {
         // y = 0
         if (this.pos.y < this.yBounds.x) {
             let upper = this.pos;
-            let lower = this.prevPos;
+            const numContacts = this.contactHistory.length;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
+
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
-            while (Math.abs(testPos.y - this.yBounds.x) > epsilon) {
+            let iter = 0;
+            while (Math.abs(testPos.y - this.yBounds.x) > epsilon && iter < maxIter) {
                 // TestPos is closer to pos
                 if (testPos.y < this.yBounds.x) {
                     upper = testPos;
@@ -127,16 +137,19 @@ export default class Ball {
                     lower = testPos;
                 }
                 testPos = upper.add(lower).scale(0.5);
+                iter++;
             }
 
             normals.push(new Vec2(0, 1));
             // y = h
         } else if (this.pos.y > this.yBounds.y) {
             let upper = this.pos;
-            let lower = this.prevPos;
+            const numContacts = this.contactHistory.length;
+            let lower = numContacts > 0 ? this.contactHistory[numContacts - 1] : center;
             testPos = upper.add(lower).scale(0.5);
             const epsilon = 0.5;
-            while (Math.abs(testPos.y - this.yBounds.y) > epsilon) {
+            let iter = 0;
+            while (Math.abs(testPos.y - this.yBounds.y) > epsilon && iter < maxIter) {
                 // TestPos is closer to pos
                 if (testPos.y > this.yBounds.y) {
                     upper = testPos;
@@ -144,6 +157,7 @@ export default class Ball {
                     lower = testPos;
                 }
                 testPos = upper.add(lower).scale(0.5);
+                iter++;
             }
 
             normals.push(new Vec2(0, -1));
@@ -151,7 +165,7 @@ export default class Ball {
         this.pos = testPos.copy();
         // line(p, this.pos, this.dir, 2, 30);
 
-        if (!this.spawnedThisFrame && normals.length > 0) {
+        if (!this.spawnedThisFrame && !this.ignoreThisFrameReflection && normals.length > 0) {
             if (this.contactHistory.length === 0) {
                 this.firstContactTime = Date.now();
             }
@@ -180,6 +194,8 @@ export default class Ball {
 
         this.prevPos = this.pos;
         this.pos = this.pos.add(this.vel.scale(dt));
+
+        this.ignoreThisFrameReflection = false;
     }
 
     draw(p: p5, p2: p5) {

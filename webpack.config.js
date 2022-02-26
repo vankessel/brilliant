@@ -52,6 +52,6 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/brilliant/dist/', // The leading slash is important!
+    publicPath: '/dist/', // The leading slash is important!
   },
 };

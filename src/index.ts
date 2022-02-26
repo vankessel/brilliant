@@ -34,12 +34,13 @@ const p5Instance = new p5((p: p5) => {
     correctedPos.x = mod(correctedPos.x, pg_grid.width);
     correctedPos.y = mod(correctedPos.y, pg_grid.height);
     let correctedVel = vec.mult(scale);
+    let lifetime = life_slider.value() as number;
     if (balls.length < maxBalls) {
-      const ball = new Ball(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null);
+      const ball = new Ball(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null, 8, lifetime);
       balls.push(ball);
     } else {
       const ball = balls[ballIdx];
-      ball.construct(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null);
+      ball.construct(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null, 8, lifetime);
     }
     ballIdx = (ballIdx + 1) % maxBalls;
   }
@@ -57,7 +58,7 @@ const p5Instance = new p5((p: p5) => {
   }
 
   p.setup = () => {
-    const canvasWidth = 360;
+    const canvasWidth = 480;
     const canvasHeight = canvasWidth;
     p.createCanvas(canvasWidth, canvasHeight, p.WEBGL).parent("canvasContainer");
     p.frameRate(60);
@@ -73,9 +74,32 @@ const p5Instance = new p5((p: p5) => {
 
     const randAngle = p.random() * 2 * Math.PI;
     const speed = 60;
+
+    life_slider = p.createSlider(1, 16, 8);
+    life_slider.parent("lifeSlider");
+    w_slider = p.createSlider(50, 480, viewSize.x);
+    w_slider.parent("wSlider");
+    h_slider = p.createSlider(50, 480, viewSize.y);
+    h_slider.parent("hSlider");
   };
 
+  let life_slider: p5.Element;
+  let w_slider: p5.Element;
+  let h_slider: p5.Element;
   p.draw = () => {
+    const newW = w_slider.value() as number;
+    const newH = h_slider.value() as number;
+    if (newW !== pg_grid.width || newH !== pg_grid.height) {
+      pg_grid = p.createGraphics(newW, newH);
+      for (const ball of balls) {
+        ball.xBounds.y = newW;
+        ball.yBounds.y = newH;
+        ball.ignoreThisFrameReflection = true;
+        ball.contactHistory = new Array<Vec2>();
+        ball.initPos = ball.pos;
+      }
+    }
+
     p.push();
     pg_grid.push()
     pg_paths.push()
@@ -161,20 +185,24 @@ const p5Instance = new p5((p: p5) => {
   let lastMouseRelease: Vec2;
   let isDragging = false;
   p.mousePressed = (event: MouseEvent) => {
+    legitPressed = (event.target as HTMLElement).id === 'defaultCanvas0';
     lastMousePress = new Vec2((p.mouseX - p.width / 2) / zoomFactor, (p.mouseY - p.height / 2) / zoomFactor);
-    console.log(`pressed ${lastMousePress.x} ${lastMousePress.y}`);
   }
   p.mouseDragged = (event: MouseEvent) => {
-    isDragging = true;
+    if (legitPressed) {
+      isDragging = true;
+    }
   }
   p.mouseReleased = (event: MouseEvent) => {
     lastMouseRelease = new Vec2((p.mouseX - p.width / 2) / zoomFactor, (p.mouseY - p.height / 2) / zoomFactor);
-    console.log(`released ${lastMouseRelease.x} ${lastMouseRelease.y}`);
+    // console.log(`released ${lastMouseRelease.x} ${lastMouseRelease.y}`);
     if (isDragging) {
       isDragging = false;
       launchBall(lastMouseRelease, lastMousePress.sub(lastMouseRelease), pg_grid.width, pg_grid.height);
     }
+    legitPressed = false;
   }
+  let legitPressed = false;
 
   p.mouseWheel = (event: WheelEvent) => {
     if (event.deltaY === 0) return;
