@@ -56,7 +56,11 @@ export default class Ball {
         const sound = this.ballSpawnSounds[Math.trunc(Math.random() * this.ballSpawnSounds.length)];
         sound.setVolume(0.1);
         sound.pan(pan);
-        sound.play();
+        if (sound.isLoaded) {
+            sound.play();
+        } else {
+            console.log("Sound not loaded!");
+        }
     }
 
     update(dt: number) {

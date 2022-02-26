@@ -146,8 +146,6 @@ const p5Instance = new p5((p: p5) => {
     // img.copy(pg, 0, 0, pg.width, pg.height, 0, 0, pg.width, pg.height);
     p.image(pg_paths, 0, 0);
 
-    console.log(zoomFactor);
-
     // Draw rope
     // pg.line()
 
