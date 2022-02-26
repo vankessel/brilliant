@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -8,6 +9,11 @@ module.exports = {
     static: true,
     watchFiles: ['src/**/*', 'public/**/*'],
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      p5: 'p5',
+    })
+  ],
   module: {
     rules: [
       {
@@ -29,6 +35,13 @@ module.exports = {
         type: 'asset/resource',
         generator: {
           filename: 'fonts/[hash][ext][query]'
+        }
+      },
+      {
+        test: /\.(ogg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'sounds/[hash][ext][query]'
         }
       },
     ],
