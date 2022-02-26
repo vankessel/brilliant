@@ -9,11 +9,11 @@ module.exports = {
     static: true,
     watchFiles: ['src/**/*', 'public/**/*'],
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      p5: 'p5',
-    })
-  ],
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     p5: 'p5',
+  //   })
+  // ],
   module: {
     rules: [
       {
@@ -51,7 +51,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'brilliant/dist'),
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/brilliant/dist/', // The leading slash is important!
   },
 };

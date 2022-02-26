@@ -1,5 +1,5 @@
 import * as p5 from "p5";
-import 'p5/lib/addons/p5.sound';
+// import 'p5/lib/addons/p5.sound';
 import { clamp } from "./math";
 import Vec2 from "./vec2";
 
@@ -14,7 +14,7 @@ export default class Ball {
     private spawnTime: number;
     private active: boolean = true;
     private spawnedThisFrame: boolean = true;
-    private ballSpawnSounds: p5.SoundFile[];
+    // private ballSpawnSounds: p5.SoundFile[];
 
     initPos: Vec2;
     initVel: Vec2;
@@ -24,11 +24,11 @@ export default class Ball {
     xBounds: Vec2;
     yBounds: Vec2;
 
-    constructor(pos: Vec2, dir: Vec2, speed: number, xBounds: Vec2, yBounds: Vec2, ballSpawnSounds: p5.SoundFile[] = [], radius: number = 8, duration: number = 5, active: boolean = true) {
+    constructor(pos: Vec2, dir: Vec2, speed: number, xBounds: Vec2, yBounds: Vec2, ballSpawnSounds: any = [], radius: number = 8, duration: number = 5, active: boolean = true) {
         this.construct(pos, dir, speed, xBounds, yBounds, ballSpawnSounds, radius, duration, active)
     }
 
-    construct(pos: Vec2, dir: Vec2, speed: number, xBounds: Vec2, yBounds: Vec2, ballSpawnSounds: p5.SoundFile[] = [], radius: number = 8, duration: number = 5, active: boolean = true) {
+    construct(pos: Vec2, dir: Vec2, speed: number, xBounds: Vec2, yBounds: Vec2, ballSpawnSounds: any = [], radius: number = 8, duration: number = 5, active: boolean = true) {
         this.pos = pos;
         this.prevPos = Vec2.zero;
         this.dir = dir.normalized();
@@ -44,7 +44,7 @@ export default class Ball {
         this.spawnTime = Date.now();
         this.active = active;
         this.spawnedThisFrame = true;
-        this.ballSpawnSounds = ballSpawnSounds;
+        // this.ballSpawnSounds = ballSpawnSounds;
     }
 
     setActive(active: boolean) {

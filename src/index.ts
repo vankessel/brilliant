@@ -3,8 +3,8 @@ import Ball from "./ball";
 import Vec2 from "./vec2";
 import { calcImageGrid } from "./helpers";
 import { clamp, mod } from "./math";
-import soundAsset1 from "../assets/sounds/button1.ogg"
-import soundAsset2 from "../assets/sounds/button2.ogg"
+// import soundAsset1 from "../assets/sounds/button1.ogg"
+// import soundAsset2 from "../assets/sounds/button2.ogg"
 
 const p5Instance = new p5((p: p5) => {
   let pg_grid: p5.Graphics;
@@ -35,11 +35,11 @@ const p5Instance = new p5((p: p5) => {
     correctedPos.y = mod(correctedPos.y, pg_grid.height);
     let correctedVel = vec.mult(scale);
     if (balls.length < maxBalls) {
-      const ball = new Ball(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), ballSpawnSounds);
+      const ball = new Ball(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null);
       balls.push(ball);
     } else {
       const ball = balls[ballIdx];
-      ball.construct(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), ballSpawnSounds);
+      ball.construct(correctedPos, correctedVel, correctedVel.mag(), new Vec2(0, w), new Vec2(0, h), null);
     }
     ballIdx = (ballIdx + 1) % maxBalls;
   }
@@ -48,12 +48,12 @@ const p5Instance = new p5((p: p5) => {
     _targetZoomFactor = clamp(targetZoomFactor, targetZoomMin, targetZoomMax);
   }
 
-  let ballSpawnSounds = new Array<p5.SoundFile>();
+  // let ballSpawnSounds = new Array<p5.SoundFile>();
   p.preload = () => {
     // font = p.loadFont(soleil);
     // photonImg = p.loadImage(photonAsset);
-    ballSpawnSounds.push(p.loadSound(soundAsset1));
-    ballSpawnSounds.push(p.loadSound(soundAsset2));
+    // ballSpawnSounds.push(p.loadSound(soundAsset1));
+    // ballSpawnSounds.push(p.loadSound(soundAsset2));
   }
 
   p.setup = () => {
